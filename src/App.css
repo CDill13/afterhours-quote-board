@@ -1,0 +1,72 @@
+.App {
+    width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 45px;
+    color: hotpink;
+    margin: 20px;
+}
+
+.add-quote {
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.button {
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
+
+.green-btn {
+    background: #228b22;
+}
+
+.green-btn:active {
+    background: #1c5c1c;
+}
+
+.red-button {
+    background: firebrick;
+}
+
+.red-button:active {
+    background: darkred;
+}
+
+.quotes {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quote {
+    border: 2px solid black;
+    display:flex;
+    width: 70%;
+}
+
+.quote-name {
+    width: 20%;
+    border-right: 2px solid black;
+}
+
+.quote-text {
+    width: 75%;
+    padding-left: 5px;
+}
+
+.quote-delete {
+  width:10%;
+}
