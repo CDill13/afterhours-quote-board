@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 import Quote from './components/quote';
 
@@ -7,36 +7,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quotes: [
-        {
-          id: 1,
-          name: 'Bob Ross',
-          quote: 'Happy little trees',
-        },
-        {
-          id: 1,
-          name: 'Bob Ross',
-          quote: 'Happy little trees',
-        },
-        {
-          id: 1,
-          name: 'Bob Ross',
-          quote: 'Happy little trees',
-        },
-        {
-          id: 1,
-          name: 'Bob Ross',
-          quote: 'Happy little trees',
-        },
-        {
-          id: 1,
-          name: 'Bob Ross',
-          quote: 'Happy little trees',
-        },
-      ],
+      quotes: [],
       name: '',
       quote: '',
     };
+  }
+
+  componentDidMount() {
+    axios.get('/api/quotes').then(res => {
+      this.setState({ quotes: res.data });
+    });
   }
 
   handleInput(input, text) {
@@ -44,6 +24,13 @@ class App extends Component {
       [input]: text,
     });
   }
+
+  createQuote() {
+    if (this.state.name !== '' || this.state.quote !== '') {
+      axios.post('/api/quote', { name: this.state.name, quote: this.state.quote });
+    }
+  }
+
   render() {
     const quotes = this.state.quotes.map(quote => <Quote name={quote.name} quote={quote.quote} />);
     return (
@@ -61,9 +48,21 @@ class App extends Component {
           </div>
           <div>
             <label htmlFor="Quote">Quote </label>
-            <input type="text" />
+            <input
+              type="text"
+              onChange={e => {
+                this.handleInput('quote', e.target.value);
+              }}
+            />
           </div>
-          <div className="button green-btn">Add</div>
+          <div
+            className="button green-btn"
+            onClick={() => {
+              this.createQuote();
+            }}
+          >
+            Add
+          </div>
         </div>
         <div className="quotes">{quotes}</div>
       </div>

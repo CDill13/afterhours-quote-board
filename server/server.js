@@ -22,7 +22,28 @@ massive(process.env.CONNECTION_STRING)
     console.log(err);
   });
 
-app.get('/api/quotes', (req, res) => {
-  console.log('made it');
-  res.sendStatus(200);
+app.get('/api/quotes', async (req, res) => {
+  const db = req.app.get('db');
+  const quotes = await db.selectAllQuotes();
+  res.status(200).send(quotes);
+});
+
+app.post('/api/quote', (req, res) => {
+  console.log(req.body);
+  const db = req.app.get('db');
+  db.getUser([req.body.name]).then(existingUser => {
+    if (!existingUser[0]) {
+      db.createUser([req.body.name]).then(createdUser => {
+        db.createQuote([createdUser[0].id, req.body.quote]).then(quote => {
+          console.log(quote);
+          res.status(200).send(quote);
+        });
+      });
+    } else {
+      db.createQuote([existingUser[0].id, req.body.quote]).then(quote => {
+        console.log(quote);
+        res.status(200).send(quote);
+      });
+    }
+  });
 });
